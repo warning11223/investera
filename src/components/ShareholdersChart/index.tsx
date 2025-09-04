@@ -101,14 +101,12 @@ const ShareholdersChart: React.FC<Props> = ({data}) => {
                             });
                             dataset.backgroundColor = newBackgroundColors;
 
-                            // Проверяем, что event является MouseEvent
                             if (event.native && event.native.target instanceof HTMLElement) {
                                 event.native.target.style.cursor = 'pointer';
                             }
                         } else {
                             dataset.backgroundColor = colors;
 
-                            // Проверяем, что event является MouseEvent
                             if (event.native && event.native.target instanceof HTMLElement) {
                                 event.native.target.style.cursor = 'default';
                             }
