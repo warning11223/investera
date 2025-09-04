@@ -12,6 +12,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+* {
+  font-family: system-ui, Montserrat, sans-serif;
+}
+
 #root {
   max-width: 1440px;
   width: 100%;

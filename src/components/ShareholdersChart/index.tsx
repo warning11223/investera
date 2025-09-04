@@ -29,7 +29,10 @@ interface Props {
 const ShareholdersChart: React.FC<Props> = ({data}) => {
     const chartRef = useRef<HTMLCanvasElement>(null);
     const chartInstanceRef = useRef<Chart.Chart | null>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
+
     const isMobile = useMediaQuery('(max-width: 768px)');
+
     const [legendItems, setLegendItems] = useState<LegendItem[]>([]);
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
@@ -152,17 +155,44 @@ const ShareholdersChart: React.FC<Props> = ({data}) => {
         };
     }, [data, isMobile]);
 
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (!chartRef.current) return;
+
+            const canvas = chartRef.current;
+            const rect = canvas.getBoundingClientRect();
+
+            const isOnCanvas = (
+                event.clientX >= rect.left &&
+                event.clientX <= rect.right &&
+                event.clientY >= rect.top &&
+                event.clientY <= rect.bottom
+            );
+
+            if (!isOnCanvas) {
+                handleMouseLeave();
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
     if (!data.length) {
         return <EmptyChart />
     }
 
     return (
-        <div className={styles.container}>
+        <div className={styles.container} ref={containerRef}>
             <div className={`${styles.wrapper} ${isMobile ? styles.mobile : ''}`} >
                 <canvas
                     ref={chartRef}
                     className={styles.canvas}
                     onMouseLeave={handleMouseLeave}
+                    onTouchEnd={handleMouseLeave}
                 />
 
                 <CustomLegend
