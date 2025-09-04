@@ -6,11 +6,6 @@ interface ShareholderData {
     share_percent: string;
 }
 
-interface ProcessedShareholder {
-    holder: string;
-    total_percent: number;
-}
-
 export interface DataType {
     key: string;
     shareholder: string;
@@ -33,30 +28,41 @@ const useShareholdersData = (apiUrl: string = '/data.json'): UseShareholdersData
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
-    // Функция для удаления дубликатов и агрегации данных
+    // Функция для удаления дубликатов и нормализации данных до 100%
     const processData = (rawData: ShareholderData[]): DataType[] => {
-        const grouped = rawData.reduce((acc: ProcessedShareholder[], item) => {
-            const existing = acc.find(x => x.holder === item.holder);
-            if (existing) {
-                existing.total_percent += parseFloat(item.share_percent);
-            } else {
-                acc.push({
-                    holder: item.holder,
-                    total_percent: parseFloat(item.share_percent)
-                });
+        const uniqueHoldersMap = new Map<string, number>();
+
+        let totalSum = 0;
+
+        for (const item of rawData) {
+            if (!uniqueHoldersMap.has(item.holder)) {
+                const percent = parseFloat(item.share_percent);
+                uniqueHoldersMap.set(item.holder, percent);
+                totalSum += percent;
             }
-            return acc;
-        }, []);
+        }
 
-        // Сортируем по убыванию процентов
-        const sorted = grouped.sort((a, b) => b.total_percent - a.total_percent);
+        const needsNormalization = Math.abs(totalSum - 100) > 0.01;
+        const factor = needsNormalization ? 100 / totalSum : 1;
 
-        // Преобразуем в нужный формат
-        return sorted.map((item, index) => ({
-            key: (index + 1).toString(),
-            shareholder: item.holder,
-            percentage: `${item.total_percent.toFixed(2)} %`
-        }));
+        return Array.from(uniqueHoldersMap)
+            .map(([holder, total_percent], index) => {
+                const normalizedPercent = needsNormalization
+                    ? parseFloat((total_percent * factor).toFixed(3))
+                    : total_percent;
+
+                return {
+                    holder,
+                    total_percent: normalizedPercent,
+                    originalIndex: index
+                };
+            })
+            .sort((a, b) => b.total_percent - a.total_percent)
+            .map((item, index) => ({
+                key: (index + 1).toString(),
+                shareholder: item.holder,
+                percentage: `${item.total_percent.toFixed(3)} %`
+            }));
     };
 
     const fetchData = async () => {
