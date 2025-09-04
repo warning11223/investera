@@ -1,0 +1,108 @@
+// Переменные
+$header-bg: rgba(23, 35, 57, 1);
+$header-text: #ffffff;
+$row-bg: rgba(17, 17, 18, 0.04);
+$text-color: rgba(23, 35, 57, 1);
+$border-color: #e8e8e8;
+$border-radius: 8px;
+$padding: 16px;
+$font-size: 14px;
+
+// Брейкпоинты
+$breakpoint-xl: 1200px;
+$breakpoint-lg: 992px;
+$breakpoint-md: 768px;
+$breakpoint-sm: 576px;
+
+.container {
+    width: 100%;
+    max-width: 734px;
+    margin: 0 auto;
+    box-sizing: border-box;
+
+    @media (min-width: $breakpoint-md) {
+        margin: 0;
+        max-width: 100%;
+    }
+}
+
+.dateText {
+    text-align: left;
+    margin: 0;
+    padding-top: 12px;
+
+    @media (max-width: 960px) {
+        margin-bottom: 16px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid rgba(23, 35, 57, 0.16);
+    }
+}
+
+.table {
+    border-radius: $border-radius;
+    overflow: hidden;
+    box-shadow: none;
+    width: 100%;
+    border-color: red !important;
+
+    :global(.ant-table-thead) > tr > th {
+        background-color: $header-bg !important;
+        color: $header-text !important;
+        font-weight: 500;
+        font-size: $font-size;
+        padding: 24px 16px;
+        border: none;
+
+        &:first-child {
+            border-top-left-radius: 50%;
+        }
+
+        &:last-child {
+            border-top-right-radius: 50%;
+        }
+    }
+
+    :global(.ant-table-tbody) > tr > td {
+        background-color: $row-bg !important;
+        color: $text-color;
+        font-size: $font-size;
+        padding: $padding;
+        border-bottom: 1px solid $border-color;
+    }
+
+    :global(.ant-table-tbody) > tr:last-child > td {
+        border-bottom: none;
+
+        &:first-child {
+            border-bottom-left-radius: $border-radius;
+        }
+
+        &:last-child {
+            border-bottom-right-radius: $border-radius;
+        }
+    }
+
+    // Контейнер таблицы
+    :global(.ant-table) {
+        border-radius: $border-radius;
+    }
+
+    :global(.ant-table-container) {
+        border-radius: $border-radius;
+    }
+
+    :global(.ant-table-content) {
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+.shareholderColumn {
+    min-width: 200px;
+    font-weight: 600;
+    font-size: 14px !important;
+}
+
+.percentageColumn {
+    min-width: 100px;
+    white-space: nowrap;
+}

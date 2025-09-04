@@ -1,0 +1,210 @@
+.container {
+  width: 100%;
+  max-width: 610px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+  border: 1px solid rgba(23, 35, 57, 0.16);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 1);
+
+  &.empty {
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.emptyContent {
+  text-align: center;
+  color: #999;
+}
+
+.emptyIcon {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.wrapper {
+  height: 400px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &.mobile {
+    height: auto;
+    flex-direction: column;
+  }
+}
+
+.canvas {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+@media (max-width: 960px) {
+  .container {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 16px;
+  }
+
+  .wrapper {
+    height: 350px;
+  }
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+
+  &.mobile {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+.canvas {
+  flex: 1;
+  max-width: 300px;
+  max-height: 300px;
+}
+
+.customLegend {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+}
+
+.legendList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  text-align: left;
+  gap: 12px;
+  width: 100%;
+  min-width: 0;
+}
+
+.legendColor {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.legendText {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1;
+  gap: 10px;
+  min-width: 0;
+  width: 100%;
+}
+
+.legendLabel {
+  color: rgba(69, 79, 97, 1);
+  font-size: 16px;
+  font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  flex: 1;
+}
+
+.legendPercentage {
+  font-size: 14px;
+  color: #666;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.legendDivider {
+  height: 0.5px;
+  background-color: rgba(23, 35, 57, 0.16);
+  width: 100%;
+}
+
+.mobileLegend {
+  width: 100%;
+
+  .legendList {
+    gap: 6px;
+  }
+
+  .legendItem {
+    padding: 6px 0;
+  }
+
+  .legendColor {
+    width: 14px;
+    height: 14px;
+  }
+
+  .legendLabel,
+  .legendPercentage {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .legendItem {
+    gap: 8px;
+  }
+
+  .legendText {
+    gap: 6px;
+  }
+
+  .legendLabel {
+    font-size: 14px;
+  }
+
+  .legendPercentage {
+    font-size: 12px;
+  }
+}
+
+.legendLabel {
+  position: relative;
+
+  &:hover::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 1000;
+    pointer-events: none;
+  }
+}
