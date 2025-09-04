@@ -1,4 +1,4 @@
-import ShareholdersTable from "./components/ShareholdersTable/shareholdersTable.tsx";
+import ShareholdersTable from "./components/ShareholdersTable";
 import ShareholdersChart from "./components/ShareholdersChart";
 import styles from "./Index.module.scss";
 import useShareholdersData from "./hooks/useShareholdersData.ts";
